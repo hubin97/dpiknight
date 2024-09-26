@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=4 uid="uid://cfxoylfvqche7"]
+[gd_scene load_steps=9 format=4 uid="uid://cfxoylfvqche7"]
 
 [ext_resource type="PackedScene" uid="uid://c8ebudl3cverf" path="res://scenes/player.tscn" id="1_w1d8a"]
 [ext_resource type="Texture2D" uid="uid://d0q2g65ahgok" path="res://assets/sprites/world_tileset.png" id="2_tv8lx"]
+[ext_resource type="PackedScene" uid="uid://q18os7roac4s" path="res://scenes/platform.tscn" id="3_pjece"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vca18"]
 texture = ExtResource("2_tv8lx")
@@ -167,6 +168,44 @@ texture = ExtResource("2_tv8lx")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_vca18")
 
+[sub_resource type="Animation" id="Animation_bss3c"]
+resource_name = "move"
+length = 2.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(354, 6), Vector2(417, 5)]
+}
+
+[sub_resource type="Animation" id="Animation_bd5sm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(417, 5)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pl0pc"]
+_data = {
+"RESET": SubResource("Animation_bd5sm"),
+"move": SubResource("Animation_bss3c")
+}
+
 [node name="Game" type="Node2D"]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
@@ -176,9 +215,22 @@ tile_map_data = PackedByteArray("AAD//wIAAAAAAAEAAAAAAAIAAAAAAAEAAAD9/wQAAAABAAA
 tile_set = SubResource("TileSet_gpxo1")
 
 [node name="Player" parent="." instance=ExtResource("1_w1d8a")]
+z_index = 5
 position = Vector2(6, 0)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(0, 5)
 zoom = Vector2(4, 4)
 position_smoothing_enabled = true
+
+[node name="Platform" parent="." instance=ExtResource("3_pjece")]
+position = Vector2(0, -22)
+
+[node name="Platform2" parent="." instance=ExtResource("3_pjece")]
+position = Vector2(417, 5)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Platform2"]
+libraries = {
+"": SubResource("AnimationLibrary_pl0pc")
+}
+autoplay = "move"
