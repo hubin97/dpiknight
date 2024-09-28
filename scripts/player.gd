@@ -32,12 +32,14 @@ func _movement(delta):
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction = Input.get_axis("ui_left", "ui_right")
+	var direction = Input.get_axis("move_left", "move_right")
 	if direction:
 		velocity.x = direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
+	#print(global_position)
+	
 # 设置精灵翻转
 func _set_animation():
 	if velocity.x > 0:
@@ -49,8 +51,8 @@ func _set_animation():
 @warning_ignore("unused_parameter")
 func _ladder_climb(delta):
 	var direction = Vector2.ZERO
-	direction.x = Input.get_axis("ui_left", "ui_right")
-	direction.y = Input.get_axis("ui_up", "ui_down")
+	direction.x = Input.get_axis("move_left", "move_right")
+	direction.y = Input.get_axis("move_up", "move_down")
 	
 	if direction:
 		velocity = direction * SPEED/2
@@ -59,7 +61,7 @@ func _ladder_climb(delta):
 	else:
 		velocity = Vector2.ZERO
 	
-	if  velocity:
+	if velocity:
 		animated_sprite.play("run")
 	else:
 		animated_sprite.stop()
@@ -71,10 +73,11 @@ func _ladder_climb(delta):
 	#print("ladder_top:", ladder_top)
 	#print("position:", self.global_position.y)
 	# 到达顶部条件
-	var condition = self.global_position.y - ladder_top + 5 <= 0
+	var condition = velocity && self.global_position.y - ladder_top + 5 <= 0
 	print("condition:", condition)
-
+	print("velocity", velocity)
 	if condition:
+		self.global_position.y = ladder_top - 15
 		print("已经到梯子顶部")
 	else:
 		print("正在爬梯子")
