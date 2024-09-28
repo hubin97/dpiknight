@@ -69,15 +69,15 @@ func _ladder_climb(delta):
 	# 处理位置
 	position += velocity * delta  # 应用速度到角色位置
 
-	var ladder_top = ladder_top.position.y
+	var ladder_top_y = ladder_top.position.y
 	#print("ladder_top:", ladder_top)
 	#print("position:", self.global_position.y)
 	# 到达顶部条件
-	var condition = velocity && self.global_position.y - ladder_top + 5 <= 0
+	var condition = velocity.y > 0 && self.global_position.y - ladder_top_y + 5 <= 0
 	print("condition:", condition)
 	print("velocity", velocity)
 	if condition:
-		self.global_position.y = ladder_top - 15
+		self.global_position.y = ladder_top_y - 15
 		print("已经到梯子顶部")
 	else:
 		print("正在爬梯子")
