@@ -6,7 +6,7 @@ const JUMP_VELOCITY = -250.0
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var ladder_ray_cast = $LadderRayCast
 
-@onready var ladder_top = $"../LadderTops/LadderTop"
+#@onready var ladder_top = $"../LadderTops/LadderTop"
 
 func _physics_process(delta):
 	
@@ -57,7 +57,6 @@ func _ladder_climb(delta):
 	if direction:
 		velocity = direction * SPEED/2
 		#print(velocity.y)
-		print(position.y)
 	else:
 		velocity = Vector2.ZERO
 	
@@ -69,15 +68,15 @@ func _ladder_climb(delta):
 	# 处理位置
 	position += velocity * delta  # 应用速度到角色位置
 
-	var ladder_top_y = ladder_top.position.y
-	#print("ladder_top:", ladder_top)
-	#print("position:", self.global_position.y)
-	# 到达顶部条件
-	var condition = velocity.y > 0 && self.global_position.y - ladder_top_y + 5 <= 0
-	print("condition:", condition)
-	print("velocity", velocity)
-	if condition:
-		self.global_position.y = ladder_top_y - 15
-		print("已经到梯子顶部")
-	else:
-		print("正在爬梯子")
+	#var ladder_top_y = ladder_top.position.y
+	##print("ladder_top:", ladder_top)
+	##print("position:", self.global_position.y)
+	## 到达顶部条件
+	#var condition = velocity.y > 0 && self.global_position.y - ladder_top_y + 5 <= 0
+	#print("condition:", condition)
+	#print("velocity", velocity)
+	#if condition:
+		#self.global_position.y = ladder_top_y - 15
+		#print("已经到梯子顶部")
+	#else:
+		#print("正在爬梯子")
